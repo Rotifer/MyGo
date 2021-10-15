@@ -31,9 +31,9 @@ func main() {
 }
 
 func getHomeDir() string {
- homeDir, err := os.UserHomeDir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatal(err)
-}
+	}
 	return homeDir
 }

@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
-	"bufio"
 )
 
 func main() {
@@ -31,9 +31,9 @@ func main() {
 }
 
 func getHomeDir() string {
-    homeDir, err := os.UserHomeDir()
-    if err != nil {
-        log.Fatal( err )
-    }
-    return homeDir
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return homeDir
 }

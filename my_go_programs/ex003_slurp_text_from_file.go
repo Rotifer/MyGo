@@ -16,6 +16,3 @@ func main() {
 	text, err := io.ReadAll(file)
 	fmt.Println(string(text))
 }
-
-
-

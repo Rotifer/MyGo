@@ -164,4 +164,28 @@ The Go scheduler is responsible for the execution of goroutines just like the OS
 
 ## Developing the which(1) utility in Go
 
+See _which.go_
+
+First, we read the command-line arguments of the program (os.Args) and save the first command-line argument into the file variable. 
+Then, we get the contents of the ___PATH___ environment variable and split it using ___filepath.SplitList()___, which offers a portable 
+way of separating a list of paths. 
+Lastly, we iterate over all the directories of the PATH variable using a for loop with range as filepath.SplitList() returns a slice.
+
+We construct the full path that we examine using filepath.Join() that is used for concatenating the different parts of a path using
+ an OS-specific separator—this makes filepath.Join() work in all supported operating systems. In this part, we also get some lower-level 
+information about the file—remember that in UNIX everything is a file, which means that we want to make sure that we are dealing with a 
+regular file that is also executable.
+
+## Logging information
+
+Generally speaking, using a log file to write some information used to be considered a better practice than writing the same output on screen for two reasons: 
+1. firstly, because the output does not get lost as it is stored on a file, 
+2. and secondly, because you can search and process log files using UNIX tools, such as grep(1), awk(1), and sed(1), which cannot be done when messages are printed on a terminal window. 
+
+However, this is not true anymore.
+
+As we usually run our services via systemd, programs should log to stdout so systemd can put logging data in the journal. 
+https://12factor.net/logs offers more information about app logs. Additionally, in cloud native applications, 
+we are encouraged to simply log to stderr and let the container system redirect the stderr stream to the desired destination.
+
 

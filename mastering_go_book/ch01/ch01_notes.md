@@ -239,4 +239,14 @@ func main() {
 
 ## Overview of Go generics
 
+Slated for version 1.18
+
+The main idea behind generics in Go, as well as any other programming language that supports generics, is not having to write special code for 
+supporting multiple data types when performing the same task.
+
+However, demanding every programmer to write lots of code and implement lots of functions and methods for supporting multiple custom data types 
+is not the optimal solution—generics comes into play for providing an alternative to the use of interfaces and reflection for supporting multiple data types. 
+
+## Developing a basic phone book application
+
 

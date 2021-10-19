@@ -118,4 +118,46 @@ Usually, user input is given in the form of command-line arguments to the execut
 By default, command-line arguments in Go are stored in the ___os.Args___ slice. 
 Go also offers the ___flag___ package for parsing command-line arguments, but there are better and more powerful alternatives.
 
+The _os.Args_ slice is properly initialized by Go and is available to the program when referenced. 
+The _os.Args_ slice contains string values
+
+The __first__ command-line argument stored in the _os.Args_ slice is always __the name of the executable__. 
+If you are using go run, you will get a temporary name and path, otherwise, it will be the path of the executable as given by the user. 
+The remaining command-line arguments are what comes after the name of the executable—the various command-line arguments are automatically separated by space 
+characters unless they are included in double or single quotes.
+
+## Understanding the Go concurrency model
+
+In order to create a new __goroutine__, you have to use the go keyword followed by a predefined function or an anonymous function—both methods are equivalent 
+as far as Go is concerned.
+
+A __channel__ in Go is a mechanism that, among other things, allows goroutines to communicate and exchange data. 
+
+Although goroutines are do not share any variables, they can share memory.
+
+the ___go___ keyword is used for creating goroutines.
+
+```go
+package main
+import (
+    "fmt"
+    "time"
+)
+func myPrint(start, finish int) {
+    for i := start; i <= finish; i++ {
+        fmt.Print(i, " ")
+    }
+    fmt.Println()
+    time.Sleep(100 * time.Microsecond)
+}
+func main() {
+    for i := 0; i < 5; i++ {
+        go myPrint(i, 5)
+    }
+    time.Sleep(time.Second)
+}
+```
+
+
+
 

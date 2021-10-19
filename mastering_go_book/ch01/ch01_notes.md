@@ -158,6 +158,10 @@ func main() {
 }
 ```
 
+If you run it multiple times, you'll most likely get a different output each time.
+This happens because goroutines are initialized in random order and start running in random order. 
+The Go scheduler is responsible for the execution of goroutines just like the OS scheduler is responsible for the execution of the OS threads.
 
+## Developing the which(1) utility in Go
 
 

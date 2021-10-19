@@ -108,4 +108,14 @@ func main() {
 
 ## Getting user input
 
+The ___fmt.Scanln()___ function can help you read user input while the program is already running and store it to a string variable, which is passed as a pointer 
+to _fmt.Scanln()_. The fmt package contains additional functions for reading user input from the console (_os.Stdin_), from files or from argument lists.
+
+## Working with command-line arguments
+
+Usually, user input is given in the form of command-line arguments to the executable file. 
+
+By default, command-line arguments in Go are stored in the ___os.Args___ slice. 
+Go also offers the ___flag___ package for parsing command-line arguments, but there are better and more powerful alternatives.
+
 

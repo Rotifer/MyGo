@@ -188,4 +188,55 @@ As we usually run our services via systemd, programs should log to stdout so sys
 https://12factor.net/logs offers more information about app logs. Additionally, in cloud native applications, 
 we are encouraged to simply log to stderr and let the container system redirect the stderr stream to the desired destination.
 
+The ___log___ package sends log messages to standard error. 
+Part of the log package is the _log/syslog_ package, which allows you to send log messages to the syslog server of your machine. 
+Although by default log writes to standard error, the use of _log.SetOutput(_) modifies that behavior. 
+The list of functions for sending logging data includes _log.Printf()_, _log.Print()_, _log.Println()_, _log.Fatalf()_, _log.Fatalln()_, log.Panic(), log.Panicln() and log.Panicf().
+
+In order to write to system logs, you need to call the ___syslog.New()___ function with the appropriate parameters. Writing to the main system log file 
+is as easy as calling syslog.New() with the syslog.LOG_SYSLOG option. 
+After that you need to tell your Go program that all logging information goes to the new logger—this is implemented with a call to the ___log.SetOutput()___ function.
+
+
+### log.Fatal() and log.Panic()
+
+The ___log.Fatal()___ function is used when something erroneous has happened and you just want to exit your program as soon as possible after reporting that bad situation
+The call to log.Fatal() terminates a Go program at the point where log.Fatal() was called after printing an error message.
+In most cases, this custom error message can be Not enough arguments, Cannot access file, or similar. 
+Additionally, it returns back a non-zero exit code, which in UNIX indicates an error. 
+
+log.Panic() is equivalent to a call to log.Print() followed by a call to panic(). panic() is a built-in function that stops the execution of the current function and begins panicking. 
+
+### Writing to a custom log file
+
+Most of the time, and especially on applications and services that are deployed to production, you just need to write your logging data in a log file of your choice. 
+
+See program __custom_log.go__
+
+The ___defer___ keyword tells Go to execute the statement just before the current function returns. 
+This means that f.Close() is going to be executed just before main() returns.
+
+The last three statements create a new log file based on an opened file (f) and write two messages to it using Println().
+
+Getting the Temp Dir path:
+
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"path"
+)
+
+func main() {
+	tmpDir := path.Join(os.TempDir())
+	fmt.Printf("Temp Dir: %v\n", os.TempDir())
+	fmt.Printf("The temp dir on this machine is %s\n", tmpDir)
+}
+```
+
+## Overview of Go generics
+
 

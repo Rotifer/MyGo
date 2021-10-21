@@ -249,4 +249,65 @@ If you want to parse the 30 January 2020 string and convert it into a Go date va
 2006 string—you cannot use anything else in its place when matching a string with the 30 January 2020 format. 
 Similarly, if you want to parse the 15 August 2020 10:00 string, you should match it against the 02 January 2006 15:04 string.
 
+you can calculate the time duration between the current time and a time in the past using a call to ___time.Since()___.
+Look into this!
+
+#### Working with different time zones
+
+Once again, you need time.Parse() in order to convert a valid input into a time.Time value before doing the conversions. 
+This time the input string contains the time zone and is parsed by the "02 January 2006 15:04 MST" string.
+
+In order to convert the parsed date and time into New York time, the program uses the following code:
+
+```go
+loc, _ = time.LoadLocation("America/New_York")
+fmt.Printf("New York Time: %s\n", now.In(loc))
+```
+
+## Go constants
+
+Strictly speaking, the value of a constant variable is defined at compile time, not at runtime—this means that it is included in the binary executable.
+
+___constant generator iota___
+
+
+```go
+const (
+        Zero Digit = iota
+        One
+        Two
+        Three
+        Four
+    )
+```
+
+This is the same as:
+
+```go
+const (
+    Zero = 0
+    One = 1
+    Two = 2
+    Three = 3
+    Four = 4
+)
+```
+
+## Grouping similar data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

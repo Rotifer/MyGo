@@ -209,4 +209,44 @@ func main() {
 
 ### Times and dates
 
+The ___time.Time___ data type, which represents an instant in time with nanosecond precision. Each time.Time value is associated with a location (time zone).
+
+The ___time.Now().Unix()___ function returns the popular UNIX epoch time, which is the number of seconds that have elapsed since 00:00:00 UTC, January 1, 1970. 
+If you want to convert the UNIX time to the equivalent _time.Time_ value, you can use the time.Unix() function. 
+
+#### Age in days function
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"time"
+)
+
+func main() {
+	birthday := "2006-01-09"
+	today := "2021-10-21"
+	daysOld := ageInDays(today, birthday)
+	fmt.Printf("Age in days is %0.2f\n", daysOld)
+}
+
+func ageInDays(d1ISO, d2ISO string) float64 {
+	layoutISO := "2006-01-02"
+	d1, err1 := time.Parse(layoutISO, d1ISO)
+	d2, err2 := time.Parse(layoutISO, d2ISO)
+	if err1 != nil || err2 != nil {
+		fmt.Printf("Errors: %v, %v \n", err1, err2)
+		os.Exit(1)
+	}
+	daysOld := d1.Sub(d2).Hours() / 24
+	return daysOld
+}
+```
+
+If you want to parse the 30 January 2020 string and convert it into a Go date variable, you should match it against the 02 January
+2006 string—you cannot use anything else in its place when matching a string with the 30 January 2020 format. 
+Similarly, if you want to parse the 15 August 2020 10:00 string, you should match it against the 02 January 2006 15:04 string.
+
 

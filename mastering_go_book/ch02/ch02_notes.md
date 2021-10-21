@@ -92,5 +92,121 @@ func main() {
 }
 ```
 
+Look what happens when you add a unicode character:
+
+```go
+
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// You can create a new byte slice from a given string by using a []byte("A String with a unicode character€")
+	s := []byte("A String €")
+	for i, c := range s {
+		fmt.Printf("Index %d, element %c\n", i, c)
+	}
+}
+```
+
+As strings can be accessed as arrays, you can iterate over the runes of the string using a for loop or point to a specific character if you know
+ its place in the string. The length of the string is the same as the number of characters found in the string, which is usually not true for 
+byte slices because Unicode characters usually require more than one byte.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+    aString := "Hello World! €"
+    fmt.Println("First character", string(aString[0]))
+    // Runes
+    // A rune
+    r := '€'
+    fmt.Println("As an int32 value:", r)
+    // Convert Runes to text
+    fmt.Printf("As a string: %v and as a character: %c\n", r, r)
+    // Print an existing string as runes
+    for _, v := range aString {
+        fmt.Printf("%x ", v)
+    }
+    fmt.Println()
+    // Print an existing string as characters
+    for _, v := range aString {
+        fmt.Printf("%c", v)
+    }
+    fmt.Println()
+}
+```
+
+### The unicode package
+
+```go
+package main
+
+import (
+	"fmt"
+	"unicode"
+)
+
+func main() {
+	sL := "\x99\x00ab\x50\x00\x23\x50\x29\x9c"
+	for i := 0; i < len(sL); i++ {
+		if unicode.IsPrint(rune(sL[i])) {
+			fmt.Printf("%c\n", sL[i])
+		} else {
+			fmt.Println("Not printable!")
+		}
+	}
+}
+
+```
+
+### The strings package
+
+The strings standard Go package allows you to manipulate UTF-8 strings in Go 
+
+
+```go
+package main
+
+import (
+	"fmt"
+	s "strings"
+	"unicode"
+)
+
+var f = fmt.Printf
+
+func main() {
+	f("EqualFold: %v\n", s.EqualFold("Mihalis", "MIHAlis"))
+	f("EqualFold: %v\n", s.EqualFold("Mihalis", "MIHAli"))
+	f("Prefix: %v\n", s.HasPrefix("Mihalis", "Mi"))
+	f("Prefix: %v\n", s.HasPrefix("Mihalis", "mi"))
+	f("Suffix: %v\n", s.HasSuffix("Mihalis", "is"))
+	f("Suffix: %v\n", s.HasSuffix("Mihalis", "IS"))
+	t := s.Fields("This is a string!")
+	f("Fields: %v\n", len(t))
+	t = s.Fields("ThisIs a\tstring!")
+	f("Fields: %v\n", len(t))
+	f("%s\n", s.Split("abcd efg", ""))
+	f("%s\n", s.Replace("abcd efg", "", "_", -1))
+	f("%s\n", s.Replace("abcd efg", "", "_", 4))
+	f("%s\n", s.Replace("abcd efg", "", "_", 2))
+	f("SplitAfter: %s\n", s.SplitAfter("123++432++", "++"))
+	trimFunction := func(c rune) bool {
+		return !unicode.IsLetter(c)
+	}
+	f("TrimFunc: %s\n", s.TrimFunc("123 abc ABC \t .", trimFunction))
+}
+
+```
+
+### Times and dates
 
 

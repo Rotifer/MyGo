@@ -84,6 +84,7 @@ import (
 
 func main() {
 	// You can create a new byte slice from a given string by using a []byte("A String")
+	// See the effects of changing %c with %v %s below!
 	s := []byte("A String")
 	for i, c := range s {
 		fmt.Printf("Index %d, element %c\n", i, c)

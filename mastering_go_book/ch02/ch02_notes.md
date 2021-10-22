@@ -468,5 +468,17 @@ is the zero value for pointers.
 
 ## Generating random numbers
 
+using the functionality of the __math/rand__ package.
 
+Each random number generator needs a seed to start producing numbers. 
+The __seed__ is used for initializing the entire process and is extremely important because if you always start with the same seed, you will 
+always get the same sequence of pseudo-random numbers. 
+This means that everybody can regenerate that sequence, and that particular sequence will not be random after all. 
+However, this feature is really useful for testing purposes. In Go, the rand.Seed() function is used for initializing a random number generator.
+
+## Generating secure random numbers
+
+If you intend to use these pseudo-random numbers for security-related work, it is important that you use the ___crypto/rand___
+ package, which implements a cryptographically secure pseudo-random number generator. 
+You do not need to define a seed when using the crypto/rand package.
 

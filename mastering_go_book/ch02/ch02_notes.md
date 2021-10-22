@@ -378,16 +378,95 @@ What is special is that Go uses byte slices for performing file I/O operations b
 amount of data you want to read or write to a file. 
 This happens because bytes are a universal unit among computer systems.
 
+As Go does not have a _char_ data type, it uses _byte_ and ___rune___ for storing character values. 
+A single byte can only store a single ASCII character whereas a rune can store Unicode characters. 
+However, a rune can occupy multiple bytes.
+
+```go
+/*
+The small program that follows illustrates how you can convert a byte slice into a string and vice versa, 
+which you need for most File I/O operations
+As Unicode characters like € need more than one byte for their representation, 
+the length of the byte slice might not be the same as the length of the string that it stores.
+
+*/
+package main
+
+import "fmt"
+
+func main() {
+	// Byte slice
+	b := make([]byte, 12)
+	fmt.Println("Byte slice:", b)
+	b = []byte("Byte slice €")
+	fmt.Println("Byte slice:", b)
+	// Print byte slice contents as text
+	fmt.Printf("Byte slice as text: %s\n", b)
+	fmt.Println("Byte slice as text:", string(b))
+	// Length of b
+	fmt.Println("Length of b:", len(b))
+}
+
+```
+
+### Deleting an element from a slice
+
+There is no default function for deleting an element from a slice, which means that if you need to delete an element from a slice, you must write your own code. 
+Deleting an element from a slice can be tricky, so this subsection presents two techniques for doing so. 
+The first technique virtually divides the original slice into two slices, split at the index of the element that needs to be deleted. 
+Neither of the two slices includes the element that is going to be deleted. 
+After that, we concatenate these two slices and creates a new one. 
+The second technique copies the last element at the place of the element that is
+ going to be deleted and creates a new slice by excluding the last element from the original slice.
+
+### How slices are connected to arrays
+
+As mentioned before, behind the scenes, each slice is implemented using an underlying array. 
+The length of the underlying array is the same as the capacity of the slice and there exist pointers that connect the slice
+ elements to the appropriate array elements.
+
+### The copy() function
+
+Go offers the ___copy()___ function for copying an existing array to a slice or an existing slice to another slice. 
+However, the use of copy() can be tricky because the destination slice is not auto-expanded if the source slice is bigger than the destination slice. 
+Additionally, if the destination slice is bigger than the source slice, then copy() does not empty the elements from the destination slice that did not get copied.
 
 
+### Sorting slices
+
+The ___sort package___ can sort slices of built-in data types without the need to write any extra code. 
+Additionally, Go provides the ___sort.Reverse()___ function for sorting in the reverse order than the default. 
+However, what is really interesting is that sort allows you to write your own sorting functions for custom data types by 
+implementing the ___sort.Interface___ interface 
+
+## Pointers
 
 
+Go has support for pointers but not for pointer arithmetic, which is the cause of many bugs and errors in programming languages like C. 
+A pointer is the memory address of a variable. 
+You need to dereference a pointer in order to get its value—dereferencing is performed using the __star__ character in front of the pointer variable. 
+Additionally, you can get the memory address of a normal variable using an __&__ in front of it.
 
 
+If a pointer variable points to an existing regular variable, then any changes you make to the stored value using the pointer variable will modify the regular variable.
 
+The main benefit you get from pointers is that passing a variable to a function as a pointer (we can call that __by reference__) does not discard any changes 
+you make to the value of that variable inside that function when the function returns. 
+There exist times where you want that functionality because it simplifies your code, but the price you pay for that simplicity is being extra careful 
+with what you do with a pointer variable.
+Remember that slices are passed to functions without the need to use a pointer—it is Go that passes the pointer to the underlying array of a slice and 
+there is no way to change that behavior.
 
+__Three more reasons for using pointers:__
 
+1. Pointers allow you to share data between functions. However, when sharing data between functions and goroutines, you should be extra careful with race condition issues.
+2. Pointers are also very handy when you want to tell the difference between the zero value of a variable and a value that is not set (__nil__). This is particularly useful with structures because pointers (and therefore pointers to structures, can have the nil value, which means that you can compare a pointer to a structure with the nil value, which is not allowed for normal structure variables.
+3. Having support for pointers and, more specifically, pointers to structures allows Go to support data structures such as linked lists and binary trees, which are widely used in computer science. 
 
+__nil__ 
+is the zero value for pointers.
+
+## Generating random numbers
 
 
 

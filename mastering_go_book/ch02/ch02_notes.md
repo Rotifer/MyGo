@@ -295,8 +295,88 @@ const (
 
 ## Grouping similar data
 
+As a result, arrays in Go are not very powerful, which is the main reason that Go has introduced an additional data structure named slice that is 
+similar to an array but is dynamic in nature 
+
+___Slices___ in Go are more powerful than arrays mainly because they are dynamic, which means that they can grow or shrink after creation if needed. 
+Additionally, any changes you make to a slice inside a function also affect the original slice. 
+But how does this happen? Strictly speaking, all parameters in Go are passed by value—there is no other way to pass parameters in Go.
+
+a slice value is a header that contains a pointer to an underlying array where the elements are actually stored, the length of the array, and 
+its capacity—the capacity of a slice is explained in the next subsection. Note that the slice value does not include its elements, 
+just a pointer to the underlying array. So, when you pass a slice to a function, Go makes a copy of that header and passes it to the function. 
+This copy of the slice header includes the pointer to the underlying array. 
+
+You can create a slice using __make()__ or like an array without specifying its size or using [...]. 
+If you do not want to initialize a slice, then using _make()_ is better and faster. 
+However, if you want to initialize it at the time of creation, then make() cannot help you. 
+As a result, you can create a slice with three float64 elements as aSlice := []float64{1.2, 3.2, -4.5}. Creating a slice with space 
+for three float64 elements with make() is as simple as executing make([]float64, 3). Each element of that slice has a value of 0, 
+which is the zero value of the float64 data type.
+
+You can find the length of an array or a slice using ___len()___. 
+As you will find out in the next subsection, slices have an additional property named capacity. 
+You can add new elements to a full slice using the append() function. append() automatically allocates the required memory space.
+
+```go
+package main
+import "fmt"
+func main() {
+    // Create an empty slice
+    aSlice := []float64{}
+    // Both length and capacity are 0 because aSlice is empty
+    fmt.Println(aSlice, len(aSlice), cap(aSlice))
+    // Add elements to a slice
+    aSlice = append(aSlice, 1234.56)
+    aSlice = append(aSlice, -34.0)
+    fmt.Println(aSlice, "with length", len(aSlice))
+    // A slice with length 4
+    t := make([]int, 4)
+    t[0] = -1
+    t[1] = -2
+    t[2] = -3
+    t[3] = -4
+    // Now you will need to use append
+    t = append(t, -5)
+    fmt.Println(t)
+    // A 2D slice
+    // You can have as many dimensions as needed
+    twoD := [][]int{{1, 2, 3}, {4, 5, 6}}
+    // Visiting all elements of a 2D slice
+    // with a double for loop
+    for _, i := range twoD {
+            for _, k := range i {
+                fmt.Print(k, " ")
+            }
+            fmt.Println()
+    }
+    make2D := make([][]int, 2)
+    fmt.Println(make2D)
+    make2D[0] = []int{1, 2, 3, 4}
+    make2D[1] = []int{-1, -2, -3, -4}
+    fmt.Println(make2D)
+}
+```
+
+The capacity shows how much a slice can be expanded without the need to allocate more memory and change the underlying array. 
+Although after slice creation the capacity of a slice is handled by Go, a developer can define the capacity of a slice at creation 
+time using the make() function—after that the capacity of the slice doubles each time the length of the slice is about to become bigger 
+than its current capacity. 
 
 
+But what happens when you want to append a slice or an array to an existing slice? Should you do that element by element? 
+Go supports the ___... operator___, which is used for exploding a slice or an array into multiple arguments before appending it to an existing slice.
+
+Setting the correct capacity of a slice, if known in advance, will make your programs faster because Go will not have to allocate a new underlying 
+array and have all the data copied over.
+
+
+A __byte slice__ is a slice of the byte data type ([]byte). 
+Go knows that most byte slices are used to store strings and so makes it easy to switch between this type and the string type. 
+There is nothing special in the way you can access a byte slice compared to the other types of slices.
+What is special is that Go uses byte slices for performing file I/O operations because they allow you to determine with precision the 
+amount of data you want to read or write to a file. 
+This happens because bytes are a universal unit among computer systems.
 
 
 

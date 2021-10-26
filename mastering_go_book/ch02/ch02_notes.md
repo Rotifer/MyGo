@@ -482,3 +482,24 @@ If you intend to use these pseudo-random numbers for security-related work, it i
  package, which implements a cryptographically secure pseudo-random number generator. 
 You do not need to define a seed when using the crypto/rand package.
 
+## Exercises
+
+- Concatenating slices and arrays
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	aSlice := []int{1, 2, 3}
+	aSlice = append(aSlice, []int{-1, -2, -3, -4}...)
+	fmt.Printf("%v\n", aSlice)
+	var anArray [7]int
+	copy(anArray[:], aSlice[:])
+	fmt.Printf("%v\n", anArray)
+}
+```
+

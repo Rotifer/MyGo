@@ -503,3 +503,9 @@ func main() {
 }
 ```
 
+### Notes on exercise
+
+- Go supports the ... operator, which is used for exploding a slice or an array into multiple arguments before appending it to an existing slice.
+- When declaring the array there is __no__ assigment operation
+- Likewise for the _copy_ function: there is no assignment
+

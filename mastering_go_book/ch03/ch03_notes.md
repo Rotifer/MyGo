@@ -88,5 +88,44 @@ Generally speaking, when you have __to initialize lots of structure variables__,
 
 ## Regular expressions and pattern matching
 
+The Go package responsible for defining regular expressions and performing pattern matching is called __regexp__. 
+We use the __regexp.MustCompile()__ function to create the regular expression and the __Match()__ function to see whether the given string is a match or not.
+
+The _re.Match()_ method returns _true_ if the given byte slice matches the regular expression, which is a _regexp.Regexp_ variable, and _false_ otherwise.
+
+```go
+package main
+
+import (
+	"fmt"
+	"regexp"
+)
+
+func main() {
+	testDates := []string{"2021-10-20", "1964-05-21", "973-01-09"}
+	for _, d := range testDates {
+		fmt.Println(IsYYYYMMDDFormat(d))
+	}
+}
+
+func IsYYYYMMDDFormat(s string) bool {
+	sAsByteSlice := []byte(s)
+	re := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}$`)
+	return re.Match(sAsByteSlice)
+}
+```
+
+Notes on the code:
+
+- The string to match against is turned into a __byte slice__
+- The regex argument to __MustCompile__ is enclosed in back ticks
+
+## Reading a tab-separated file and building a data structure from it
+
+- Taking a GWAS Catalog file as input
+- File is tab-separated
+- The columns of interst are the first two: STUDY ACCESSION	PUBMED ID
+- These values repeat - not sure if the relationship is 1:1, that is each study accession is associated with just one PubMed ID and that the inverse is also true
+- Objective: Read through the file and build a map of slices where the keys are the PubMed IDs and the values are the study accessions
 
 

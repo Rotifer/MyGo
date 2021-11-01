@@ -48,15 +48,15 @@ func buildPubmedIDToStudyAccessionMap(filePath string) map[string]string {
 	return pubmedIdToStudyaccessionMap
 }
 
-func  uniqueListFromFileColumn(filePath string, columnIndex int) []string {
-	var columnValues  []string
+func uniqueListFromFileColumn(filePath string, columnIndex int) []string {
+	var columnValues []string
 	var value string
 	setMap := make(map[string]string)
 	_, err := os.Stat(filePath)
 	if err != nil {
 		os.Exit(1)
 	}
-	
+
 	f, err := os.Open(filePath)
 	if err != nil {
 		os.Exit(1)
@@ -85,11 +85,10 @@ func  uniqueListFromFileColumn(filePath string, columnIndex int) []string {
 	return columnValues
 }
 
-
 func getElementsInMap(s []string, dict map[string]string) []string {
 	var elementsInMap []string
 	for _, el := range s {
-		if _, ok :=  dict[el]; ok {
+		if _, ok := dict[el]; ok {
 			elementsInMap = append(elementsInMap, el)
 		}
 	}

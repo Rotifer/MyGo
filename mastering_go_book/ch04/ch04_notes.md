@@ -386,4 +386,4 @@ filepath := os.Getenv("PHONEBOOK")
 
 ## Exercises
 
-
+See example: MyGo/my_go_programs/ex006_sort_slice.go

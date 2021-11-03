@@ -118,4 +118,60 @@ __Functions can return other functions__
 Apart from accepting functions as arguments, functions can also return anonymous functions, which can be handy when the returned function is not always
  the same but depends on the function's input or other external parameters. 
 
+__Variadic functions__ are functions that can accept a variable number of parameters
+- They use the __pack operator__, which consists of a ..., followed by a data type.
+- The variable that holds the pack operation is a slice
+
+Most functions in the fmt package use __...interface{}__ to accept a variable number of arguments of all data types.
+
+### The defer keyword
+
+The __defer__ keyword postpones the execution of a function until the surrounding function returns.
+
+Usually, _defer_ is used in file I/O operations to keep the function call that closes an opened file close to the call that opened it,
+ so that you do not have to remember to close a file that you have opened just before the function exits.
+
+Deferred functions are executed in last in, first out (__LIFO__) order after the surrounding function has been returned.
+
+## Developing your own packages
+
+### The init() function
+
+Each Go package can optionally have a private function named _init()_ that is automatically executed at the beginning of execution time
+—init() runs when the package is initialized at the beginning of program execution.
+
+An optional package function that takes no arguments and returns no values
+- Can be added to _package main_ where it will run before _main_
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func init() {
+	fmt.Println("init() has run.")
+}
+
+func init() {
+	fmt.Println("init() has run again.")
+}
+func main() {
+	fmt.Println("main() has run.")
+}
+```
+
+- A source file can contain multiple _init()_ functions—these are executed in the order of declaration.
+- The init() function or functions of a package are executed only once, even if the package is imported multiple times.
+- Go packages can contain multiple files. Each source file can contain one or more init() functions.
+
+- Initializing:
+	- Network connections that might take time prior to the execution of package functions or methods.
+	- Connections to one or more servers prior to the execution of package functions or methods.
+	- Creating required files and directories.
+	- Checking whether required resources are available or not.
+
+### Using GitHub to store Go packages
+
 

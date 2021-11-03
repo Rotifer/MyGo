@@ -176,3 +176,8 @@ func main() {
 
 ### A package for working with a database
 
+Skipping the PostgreSQL section because it uses the out-of-date __pq__ package
+
+## Storing the Go package
+
+

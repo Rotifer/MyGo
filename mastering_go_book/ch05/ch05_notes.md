@@ -25,5 +25,97 @@ Note that packages can have structure. For example, the __net__ package has seve
 Packages are mainly used for grouping related functions, variables, and constants so that you can transfer them easily and use them in your own Go programs. 
 Note that apart from the _main_ package, Go packages are not autonomous programs and cannot be compiled into executable files on their own.
 
+Tried installing cobra as per book:
+
+```{console}
+go get github.com/spf13/cobra
+# Install path on my machine:
+~/go/pkg/mod/cache/download/github.com/spf13
+```
+
+Starting with Go 1.16, go install is the recommended way of building and installing packages in module mode. The use of go get is deprecated
+
+## Diversion
+
+Worked through [this tutorial](https://towardsdatascience.com/how-to-create-a-cli-in-golang-with-cobra-d729641c7177)
+
+To upgrade an existing package, you should execute go get with the __-u__ option. 
+Add the __-v__ option to the _go get_ command to see what is happenning behind the scenes
+
+## Functions
+
+The single-most popular Go function is __main()__, which is used in every executable Go program—the main() function accepts no parameters and returns nothing,
+ but it is the starting point of every Go program. 
+When the main() function ends, the entire program ends as well.
+
+__Anonymous functions__ can be defined inline without the need for a name, and they are usually used for implementing things that require a small amount of code. 
+
+A function can return an anonymous function or take an anonymous function as one of its arguments. 
+Anonymous functions can be attached to Go variables.
+Called __lambdas__ in functional programming terminology.
+A __closure__ is a specific type of anonymous function that carries or closes over variables that are in the same lexical scope as the anonymous function that was defined.
+
+
+Functions can return multiple values
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	a, b, c, d := multi(10)
+	fmt.Printf("%d %d %d %d\n", a, b, c, d)
+}
+
+func multi(x int) (int, int, int, int) {
+	return x * x, x + x, x - x, x/x
+}
+```
+
+Note the compulsory use of parentheses when a function returns more than one value.
+
+The return values of a function can be __named__
+
+Functions can accept other functions as parameters. 
+The best example of a function that accepts another function as an argument can be found in the __sort__ package
+
+You are not obliged to use an anonymous function in either _sort.Slice()_ or _sort.SliceIsSorted()_. 
+You can define a regular function with the required signature and use that.
+
+```go
+package main
+import (
+    "fmt"
+    "sort"
+)
+type Grades struct {
+    Name    string
+    Surname string
+    Grade   int
+}
+func main() {
+    data := []Grades{{"J.", "Lewis", 10}, {"M.", "Tsoukalos", 7},
+        {"D.", "Tsoukalos", 8}, {"J.", "Lewis", 9}}
+    isSorted := sort.SliceIsSorted(data, func(i, j int) bool {
+        return data[i].Grade < data[j].Grade
+    })
+    if isSorted {
+        fmt.Println("It is sorted!")
+    } else {
+        fmt.Println("It is NOT sorted!")
+    }
+    sort.Slice(data,
+        func(i, j int) bool { return data[i].Grade < data[j].Grade })
+    fmt.Println("By Grade:", data)
+}
+```
+
+__Functions can return other functions__
+
+Apart from accepting functions as arguments, functions can also return anonymous functions, which can be handy when the returned function is not always
+ the same but depends on the function's input or other external parameters. 
 
 
